@@ -157,7 +157,7 @@ class TestAPI(unittest.TestCase):
         post = posts[1]
         self.assertEqual(post["title"], "Post with bells and whistles")
         self.assertEqual(post["body"], "Another test")
-        
+    
     def tearDown(self):
         """ Test teardown """
         session.close()
