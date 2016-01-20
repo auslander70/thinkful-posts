@@ -101,3 +101,25 @@ def posts_post():
     headers = {"Location": url_for("post_get", id=post.id)}
     return Response(data, 201, headers=headers,
                     mimetype="application/json")    
+                    
+@app.route("/api/post/<int:id>", methods=["PUT"])
+@decorators.accept("application/json")
+def post_update(id):
+    """ Update Post """ 
+    data = request.json
+    # Get the post from the database
+    post = session.query(models.Post).get(id)
+
+    if not post:
+        message = "Could not find post with id {}".format(id)
+        data = json.dumps({"message": message})
+        return Response(data, 404, mimetype="application/json")
+    else:
+      data["id"] = id
+      post.title = data["title"]
+      post.body = data["body"]
+      session.commit()
+      headers = {"Location": url_for("post_get", id=id)}
+      return Response(data, 201, headers=headers,
+                    mimetype="application/json")  
+      #return redirect(url_for("post_get", id=id))
