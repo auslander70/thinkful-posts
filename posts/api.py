@@ -7,7 +7,9 @@ from . import models
 from . import decorators
 from posts import app
 from .database import session
-    
+ 
+import pdb 
+   
 @app.route("/api/posts/<int:id>", methods=["GET"])
 @decorators.accept("application/json")
 def post_get(id):
@@ -52,9 +54,10 @@ def posts_get():
 
     # Get and filter the posts from the database
     posts = session.query(models.Post)
+    
     if title_like:
         posts = posts.filter(models.Post.title.contains(title_like))
-    elif body_like:
+    if body_like:
         posts = posts.filter(models.Post.body.contains(body_like))
     posts = posts.order_by(models.Post.id)
 
